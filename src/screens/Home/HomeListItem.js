@@ -4,7 +4,7 @@
  * File Created: Wednesday, 17th June 2020 10:07:03 pm
  * Author: Adithya Sreyaj
  * -----
- * Last Modified: Thursday, 18th June 2020 10:46:36 pm
+ * Last Modified: Thursday, 18th June 2020 11:12:50 pm
  * Modified By: Adithya Sreyaj<adi.sreyaj@gmail.com>
  * -----
  */
@@ -15,6 +15,8 @@ import { SvgUri } from 'react-native-svg';
 import { human } from 'react-native-typography';
 import { Feather } from '@expo/vector-icons';
 import { format as timeAgo } from 'timeago.js';
+import { LinearGradient } from 'expo-linear-gradient';
+
 import { COLORS } from '../../config/colors.config';
 
 const HomeListItem = ({
@@ -28,6 +30,17 @@ const HomeListItem = ({
 }) => {
   return (
     <View style={styles.listContainer}>
+      <LinearGradient
+        colors={['rgba(0,0,0,0.8)', 'transparent']}
+        style={{
+          position: 'absolute',
+          left: 20,
+          right: 0,
+          top: 15,
+          width: '95%',
+          height: '100%',
+        }}
+      />
       <View style={styles.listItem}>
         {icon && icon.includes('.svg') && (
           <SvgUri width="70" height="70" uri={`https://bestofjs.org/logos/${icon}`} />
@@ -105,13 +118,14 @@ const HomeListItem = ({
 };
 
 const styles = StyleSheet.create({
-  listContainer: { paddingVertical: 8, paddingHorizontal: 16 },
+  listContainer: { paddingVertical: 8, paddingHorizontal: 8 },
   listItem: {
     backgroundColor: '#fff',
     borderRadius: 4,
     padding: 16,
     flexDirection: 'row',
     alignItems: 'center',
+    marginHorizontal: 8,
   },
 });
 

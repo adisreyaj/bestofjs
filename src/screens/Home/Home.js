@@ -4,7 +4,7 @@
  * File Created: Wednesday, 17th June 2020 10:01:52 pm
  * Author: Adithya Sreyaj
  * -----
- * Last Modified: Thursday, 18th June 2020 10:56:46 pm
+ * Last Modified: Thursday, 18th June 2020 11:13:27 pm
  * Modified By: Adithya Sreyaj<adi.sreyaj@gmail.com>
  * -----
  */
@@ -75,7 +75,12 @@ const Home = () => {
             >
               <View style={{ flexDirection: 'row' }}>
                 <View
-                  style={{ backgroundColor: COLORS.primary, width: 10, height: 28, marginRight: 8 }}
+                  style={{
+                    backgroundColor: COLORS.secondary,
+                    width: 10,
+                    height: 28,
+                    marginRight: 8,
+                  }}
                 ></View>
                 <Text style={{ ...human.title1, fontWeight: '700' }}>Top Popular</Text>
               </View>
@@ -105,7 +110,12 @@ const Home = () => {
             >
               <View style={{ flexDirection: 'row' }}>
                 <View
-                  style={{ backgroundColor: COLORS.primary, width: 10, height: 28, marginRight: 8 }}
+                  style={{
+                    backgroundColor: COLORS.secondary,
+                    width: 10,
+                    height: 28,
+                    marginRight: 8,
+                  }}
                 ></View>
                 <Text style={{ ...human.title1, fontWeight: '700' }}>Top Trending</Text>
               </View>
