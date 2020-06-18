@@ -4,7 +4,7 @@
  * File Created: Wednesday, 17th June 2020 10:07:03 pm
  * Author: Adithya Sreyaj
  * -----
- * Last Modified: Wednesday, 17th June 2020 11:16:05 pm
+ * Last Modified: Thursday, 18th June 2020 10:46:36 pm
  * Modified By: Adithya Sreyaj<adi.sreyaj@gmail.com>
  * -----
  */
@@ -13,10 +13,19 @@ import React from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
 import { SvgUri } from 'react-native-svg';
 import { human } from 'react-native-typography';
-
+import { Feather } from '@expo/vector-icons';
+import { format as timeAgo } from 'timeago.js';
 import { COLORS } from '../../config/colors.config';
 
-const HomeListItem = ({ name, owner_id, icon = false, description }) => {
+const HomeListItem = ({
+  name,
+  owner_id,
+  icon = false,
+  description,
+  stars,
+  pushed_at,
+  contributor_count,
+}) => {
   return (
     <View style={styles.listContainer}>
       <View style={styles.listItem}>
@@ -51,8 +60,43 @@ const HomeListItem = ({ name, owner_id, icon = false, description }) => {
         )}
         <View style={{ marginLeft: 16, overflow: 'hidden', flexDirection: 'column' }}>
           <Text style={human.headline}>{name}</Text>
-          <Text style={([human.caption1], { width: '80%' })} numberOfLines={2}>
+          <Text style={([human.caption1], { width: '80%', marginTop: 6 })} numberOfLines={2}>
             {description}
+          </Text>
+          <View style={{ flexDirection: 'row', marginTop: 12 }}>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                marginRight: 12,
+              }}
+            >
+              <Feather name="clock" size={14} color="black" />
+              <Text style={{ ...human.footnote, marginLeft: 4 }}>{timeAgo(pushed_at)}</Text>
+            </View>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+              }}
+            >
+              <Feather name="users" size={13} color="black" />
+              <Text style={{ ...human.footnote, marginLeft: 4 }}>{contributor_count}</Text>
+            </View>
+          </View>
+        </View>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            position: 'absolute',
+            right: 16,
+            top: 12,
+          }}
+        >
+          <Feather name="star" size={14} color="black" />
+          <Text style={{ ...human.footnote, marginLeft: 4 }}>
+            {stars > 1000 ? `${(stars / 1000).toFixed(1)}K` : stars}
           </Text>
         </View>
       </View>
@@ -61,8 +105,14 @@ const HomeListItem = ({ name, owner_id, icon = false, description }) => {
 };
 
 const styles = StyleSheet.create({
-  listContainer: { padding: 8 },
-  listItem: { backgroundColor: '#fff', padding: 16, flexDirection: 'row' },
+  listContainer: { paddingVertical: 8, paddingHorizontal: 16 },
+  listItem: {
+    backgroundColor: '#fff',
+    borderRadius: 4,
+    padding: 16,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
 });
 
 export default HomeListItem;
