@@ -15,6 +15,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Home from './src/screens/Home/Home';
 import { SCREENS } from './src/config/screens.config';
+import Details from './src/screens/Details/Details';
 
 const Stack = createStackNavigator();
 export default function App() {
@@ -22,6 +23,7 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator initialRouteName={SCREENS.home} headerMode="none">
         <Stack.Screen name={SCREENS.home} component={Home}></Stack.Screen>
+        <Stack.Screen name={SCREENS.details} component={Details}></Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
   );

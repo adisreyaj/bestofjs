@@ -11,4 +11,5 @@
 
 export const SCREENS = {
   home: 'HOME',
+  details: 'DETAILS'
 };

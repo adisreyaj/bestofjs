@@ -10,17 +10,20 @@
  */
 
 import React from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
-import { SvgUri } from 'react-native-svg';
+import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
+
 import { human } from 'react-native-typography';
 import { Feather } from '@expo/vector-icons';
 import { format as timeAgo } from 'timeago.js';
 import { LinearGradient } from 'expo-linear-gradient';
 
-import { COLORS } from '../../config/colors.config';
+import { useNavigation } from '@react-navigation/native';
+import { SCREENS } from '../../config/screens.config';
+import DynamicImage from '../../components/ui/DynamicImage';
 
 const HomeListItem = ({
   name,
+  full_name,
   owner_id,
   icon = false,
   description,
@@ -28,49 +31,22 @@ const HomeListItem = ({
   pushed_at,
   contributor_count,
 }) => {
+  const navigation = useNavigation();
+
+  const navigateTo = (name) => {
+    navigation.navigate(SCREENS.details, {
+      name,
+    });
+  };
   return (
-    <View style={styles.listContainer}>
-      <LinearGradient
-        colors={['rgba(0,0,0,0.8)', 'transparent']}
-        style={{
-          position: 'absolute',
-          left: 20,
-          right: 0,
-          top: 15,
-          width: '95%',
-          height: '100%',
-        }}
-      />
+    <TouchableOpacity
+      activeOpacity={1}
+      onPress={() => navigateTo(full_name)}
+      style={styles.listContainer}
+    >
+      <LinearGradient colors={['rgba(0,0,0,0.8)', 'transparent']} style={styles.boxShadow} />
       <View style={styles.listItem}>
-        {icon && icon.includes('.svg') && (
-          <SvgUri width="70" height="70" uri={`https://bestofjs.org/logos/${icon}`} />
-        )}
-        {icon && !icon.includes('.svg') && (
-          <View style={{ borderRadius: 120 }}>
-            <Image
-              style={{ borderRadius: 4, padding: 8 }}
-              source={{
-                uri: `https://bestofjs.org/logos/${icon}`,
-                width: 70,
-                height: 70,
-              }}
-              resizeMode={'contain'}
-            />
-          </View>
-        )}
-        {!icon && owner_id && (
-          <View style={{ borderRadius: 120 }}>
-            <Image
-              style={{ borderRadius: 4, padding: 8 }}
-              source={{
-                uri: `https://avatars.githubusercontent.com/u/${owner_id}?v=3&s=120`,
-                width: 70,
-                height: 70,
-              }}
-              resizeMode={'contain'}
-            />
-          </View>
-        )}
+        <DynamicImage icon={icon} owner_id={owner_id} />
         <View style={{ marginLeft: 16, overflow: 'hidden', flexDirection: 'column' }}>
           <Text style={human.headline}>{name}</Text>
           <Text style={([human.caption1], { width: '80%', marginTop: 6 })} numberOfLines={2}>
@@ -113,7 +89,7 @@ const HomeListItem = ({
           </Text>
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
@@ -126,6 +102,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginHorizontal: 8,
+  },
+  boxShadow: {
+    position: 'absolute',
+    left: 20,
+    right: 0,
+    top: 15,
+    width: '95%',
+    height: '100%',
   },
 });
 

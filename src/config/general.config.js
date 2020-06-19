@@ -9,3 +9,4 @@
  * -----
  */
 export const baseEndpoint = 'https://bestofjs-static-api.now.sh/projects.json';
+export const detailsEndpoint = 'https://bestofjs-serverless.now.sh/api/project-details';
