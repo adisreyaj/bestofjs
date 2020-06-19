@@ -4,22 +4,47 @@
  * File Created: Thursday, 18th June 2020 10:03:57 pm
  * Author: Adithya Sreyaj
  * -----
- * Last Modified: Thursday, 18th June 2020 11:14:05 pm
+ * Last Modified: Friday, 19th June 2020 8:53:29 pm
  * Modified By: Adithya Sreyaj<adi.sreyaj@gmail.com>
  * -----
  */
 
 import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, Animated } from 'react-native';
 import Constants from 'expo-constants';
 import { Feather } from '@expo/vector-icons';
-import { Entypo } from '@expo/vector-icons';
 
 import { COLORS } from '../../config/colors.config';
 import Searchbar from './Searchbar';
 import { human } from 'react-native-typography';
 
-const HomeHeader = () => {
+const HomeHeader = ({ scrollY }) => {
+  const menuPosition = scrollY.interpolate(
+    {
+      inputRange: [0, 100],
+      outputRange: [0, -80],
+      extrapolate: 'clamp',
+    },
+    { useNativeDriver: true }
+  );
+
+  const opacity = scrollY.interpolate(
+    {
+      inputRange: [0, 20],
+      outputRange: [1, 0],
+      extrapolate: 'clamp',
+    },
+    { useNativeDriver: true }
+  );
+  const searchPosition = scrollY.interpolate(
+    {
+      inputRange: [0, 100],
+      outputRange: [0, 80],
+      extrapolate: 'clamp',
+    },
+    { useNativeDriver: true }
+  );
+
   return (
     <View style={{ paddingBottom: 20 }}>
       <View
@@ -37,25 +62,47 @@ const HomeHeader = () => {
             paddingHorizontal: 18,
           }}
         >
-          <TouchableOpacity
+          <Animated.View
             style={{
-              flexDirection: 'row',
-              alignItems: 'center',
+              opacity,
+              transform: [
+                {
+                  translateX: menuPosition,
+                },
+              ],
             }}
           >
-            <Feather name="menu" size={32} color={COLORS.primary} />
-            {/* <Text style={{ ...human.bodyWhite }}>Menu</Text> */}
-          </TouchableOpacity>
-          <TouchableOpacity
+            <TouchableOpacity
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+              }}
+            >
+              <Feather name="menu" size={32} color={COLORS.primary} />
+              {/* <Text style={{ ...human.bodyWhite }}>Menu</Text> */}
+            </TouchableOpacity>
+          </Animated.View>
+          <Animated.View
             style={{
-              marginLeft: 12,
-              flexDirection: 'row',
-              alignItems: 'center',
+              opacity,
+              transform: [
+                {
+                  translateX: searchPosition,
+                },
+              ],
             }}
           >
-            {/* <Feather name="menu" size={32} color="#fff" /> */}
-            <Feather name="search" size={28} color={COLORS.primary} />
-          </TouchableOpacity>
+            <TouchableOpacity
+              style={{
+                marginLeft: 12,
+                flexDirection: 'row',
+                alignItems: 'center',
+              }}
+            >
+              {/* <Feather name="menu" size={32} color="#fff" /> */}
+              <Feather name="search" size={28} color={COLORS.primary} />
+            </TouchableOpacity>
+          </Animated.View>
         </View>
         <View style={{ marginTop: 32, marginBottom: 24, paddingHorizontal: 24 }}>
           {/* <Searchbar /> */}

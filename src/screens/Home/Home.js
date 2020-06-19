@@ -4,14 +4,15 @@
  * File Created: Wednesday, 17th June 2020 10:01:52 pm
  * Author: Adithya Sreyaj
  * -----
- * Last Modified: Thursday, 18th June 2020 11:13:27 pm
+ * Last Modified: Friday, 19th June 2020 8:52:44 pm
  * Modified By: Adithya Sreyaj<adi.sreyaj@gmail.com>
  * -----
  */
 
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, StatusBar, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, FlatList, StatusBar, Animated } from 'react-native';
 import { Feather } from '@expo/vector-icons';
+// import Animated from 'react-native-reanimated';
 
 import { baseEndpoint } from '../../config/general.config';
 import { COLORS } from '../../config/colors.config';
@@ -25,11 +26,14 @@ const Home = () => {
   const [trending, setTrending] = useState([]);
   const [popular, setPopular] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
-
   const [page, setPage] = useState(0);
 
-  const goToNextPage = () => setPage((prev) => prev + 1);
-  const goToPrevPage = () => setPage((prev) => prev - 1);
+  const scrollY = new Animated.Value(0);
+  // const headerOpacity = scrollY.interpolate({
+  //   inputRange: [0, 30],
+  //   outputRange: [1, 0],
+  //   extrapolate: 'clamp',
+  // });
 
   useEffect(() => {
     fetchProjects();
@@ -57,11 +61,23 @@ const Home = () => {
       .then(() => setRefreshing(false))
       .catch(() => setRefreshing(false));
   };
+
   return (
     <View style={{ backgroundColor: COLORS.background }}>
       <StatusBar translucent barStyle="dark-content" backgroundColor="rgba(0, 0, 0, 0)" />
-      <ScrollView>
-        <HomeHeader />
+      <Animated.ScrollView
+        onScroll={Animated.event([{ nativeEvent: { contentOffset: { y: scrollY } } }], {
+          useNativeDriver: true,
+        })}
+      >
+        {/* <Animated.View
+          style={{
+            opacity: headerOpacity,
+          }}
+        >
+          <HomeHeader />
+        </Animated.View> */}
+        <HomeHeader scrollY={scrollY} />
         <FlatList
           ListHeaderComponent={
             <View
@@ -131,7 +147,7 @@ const Home = () => {
           keyExtractor={(item) => item.full_name}
           renderItem={({ item }) => <HomeListItem {...item} />}
         />
-      </ScrollView>
+      </Animated.ScrollView>
     </View>
   );
 };
